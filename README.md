@@ -192,3 +192,89 @@ public class ChessGame extends JFrame {
 Sie sollten, wenn Sie dieses Programm starten, ein Fenster sehen, das in etwa so aussieht:
 
 ![Schachbrett](images/chessgame_board.png)
+
+### Pawn
+
+Nun können Sie das Spiel um Figuren erweitern. Sie fangen mit Bauern an, um das Konzept zu verstehen. Wenn Sie wollen, können Sie später beliebit weitere Figuren hinzufügen.
+
+Implementieren Sie hierfür eine Klasse `Pawn`, die von `ChessPiece` ableitet. Sie soll die folgenden Methoden haben:
+
+* `public Pawn(ChessBoard board, int x, int y, ChessSprite.Color color)`: Constructor. Ruft den `super`-Constructor mit den korrekten Bilddateien auf ("Chess_pdt60.png" für den schwarzen Bauern, "Chess_plt60.png" für den weißen Bauern, und als "highlighted"-Bild in beiden Fällen "Chess_pat60.png")
+* `public boolean canMoveTo(int x, int y)`: Überschreibt die abstrakte Methode aus `ChessPiece` entsprechend der Schachregeln: Bauern können nur 1 oder 2 Felder nach Vorne gehen (wenn die Farbe Schwarz ist also nur die y-Koordinate um 1 oder 2 erhöhen, wenn die Farbe Weiß ist die y-Koordinate um 1 oder 2 verringern). Sollten Sie später das Spiel erweitern, könnten Sie hier später noch weitere Regeln implementieren wie: "Wenn der Bauer sich bewegt schon hat, kann er nur noch 1 Feld nach Vorne gehen" oder "Wenn das Feld vor dem Bauern belegt ist, kann er sich dort nicht hinbewegen, aber wenn ein Feld schräg vor ihm belegt ist, kann er sich dort hinbewegen (Schlagregeln für Bauern)" - das ist aber an diesem Punkt noch nicht nötig.
+ 
+### ChessBoard revisited
+
+Erweitern Sie nun die Klasse `ChessBoard` wie folgt, um Bauern auf dem Brett darstellen zu können und etwas Interaktivität hinzuzufügen - wenn eine Figur ausgewählt wird, sollen die Felder, auf die sie ziehen könnte, hervorgehoben werden:
+
+#### Attribute
+
+* `private List<ChessPiece> pieces`: Eine Liste der Schachfiguren auf dem Brett - für die konkrete Implementation empfiehlt sich eine `ArrayList` oder eine `LinkedList`.
+
+#### Methoden
+
+* `private void setupBoard()`: Erweitern Sie die Methode so, dass 8 weiße und 8 schwarze Bauern hinzugefügt werden (also jeweils 8 `Pawn`-Objekte mit den richtigen Constructor-Argumenten).
+* `public void highlight(int x, int y)`: Ruft für das Feld mit den Koordinaten `x` und `y` die Methode `setHighlighted(true)` auf.
+* `public void unhighlightAll()`: Ruft für alle Felder die Methode `setHighlighted(false)` auf.
+* `public List<ChessPiece> getPieces()`: Gibt die Liste der Spielfiguren zurück.
+
+### ComponentsGamePanel
+
+Nun müssen Sie nur noch dafür sorgen, dass die Bauern tatsächlich dargestellt werden. Erweitern Sie den Constructor in `ComponentsGamePanel` so, dass auch für alle `ChessPiece`s des `ChessBoard` (die Sie über `getPieces()` bekommen) jeweils passende `PieceLabel` erstellt und hinzugefügt werden - genau so, wie Sie es schon mit den `ChessField`s gemacht haben.
+
+Implementieren Sie außerdem, um nachher die Darstellung der Elemente (highlighting) aktualisieren zu können, die folgende Methode:
+
+```java
+    public void updateGUI() {
+       for(PieceLabel l : labels) {
+           l.updateIcon();
+       }
+       repaint();
+    }
+```
+
+Diese soll, wenn sich der Zustand einer Schachfigur oder eines Felds auf dem Schachbrett geändert hat, das Icon entsprechend des Zustands aktualisieren. Dann wird durch die Methode `repaint()` Swing angewiesen, das ganze `ComponentsGamePanel` neu darzustellen - das ist eine allgemeine `JComponent`-Methode, über die eine `JComponent` dem System mitteilen kann, dass ich ihr Aussehen geändert hat und sie neu gezeichnet werden muss.
+
+Wenn Sie nun die `main`-Methode Ihrer `ChessGame`-Klasse wieder aufrufen, müssten Sie ein Fenster bekommen, das in etwa so aussieht:
+
+![Schachbrett](images/chessgame_board2.png)
+
+### ChessPieceMouseListener
+
+Um Interaktivität hinzuzufügen, fehlt nun nur noch ein kleines Detail: Ein passender `MouseListener`. Implementieren Sie dafür im package `chess.ui.componentui` eine Klasse `ChessPieceMouseListener`, die das Interface `MouseListener` implementiert.
+
+#### Attribute
+
+* `private GamePanel panel`: Um Zustandsänderungen an das `GamePanel` weiter kommunizieren zu können, muss der `ChessPieseMouseListener` Zugriff auf dieses haben. Also soll er dieses als privates Attribut haben.
+
+#### Methoden
+
+* `public ChessPieceMouseListener(GamePanel panel)`: Setzt das private Attribut.
+* `public void mouseEntered(MouseEvent e)`: Wenn die Maus über die Schachfigur bewegt wird, wird diese Methode aufgerufen. Dann soll:
+  * Mittels `instanceof` überprüft werden, ob die Komponente, für die das Event ausgelöst wurde, wirklich ein `PieceLabel` ist (die Komponente für die der Event ausgelöst wurde bekommt man mit `Component c = e.getComponent()`)
+  * Falls ja, überprüft werden, ob das dazugehörige `ChessSprite` ein `ChessPiece` ist
+  * Falls ja:
+    * Das `ChessPiece` als "highlighted" gesetzt werden (`setHighlighted(true)`)
+    * Für jedes Feld auf dem Brett überprüft werden, ob die Figur sich dahin bewegen könnte (`ChessPiece.canMoveTo()`). Falls ja, soll auch dieses Feld als "highlighted" gesetzt werden - dafür wird das `private GamePanel panel` benötigt (über `.getBoard()` kommt man ja an die Felder)
+    * Am Ende muss die Methode `updateGui()` des `GamePanel` aufgerufen werden, um eine Aktualisierung der Darstellung zu erzwingen
+* `public void mouseExited(MouseEvent e)`: Wenn die Maus ein `ChessPiece` wieder verlässt (gleiche Überprüfungen wie in der Methode `mouseEntered()`), dann soll sowohl das `ChessPiece` als nicht mehr highlighted markiert werden, als auch alle Felder (dafür haben Sie in der Klasse `ChessBoard` die Methode `unhighlightAll()` implementiert), und eine Aktualisierung der Darstellung muss wieder erzwungen werden.
+
+Alle anderen geforderten Methoden aus `MouseListener` müssen zwar implementiert werden, können aber einfach leer bleiben.
+
+### ComponentsGamePanel re-revisited
+
+Nun müssen Sie nur noch im Constructor von `ComponentsGamePanel`:
+
+* Einen `ChessPieceMouseListener` instanziieren (Sie benötigen nur einen)
+* Jedem `PieceLabel`, welches Sie erstellen, diesen `ChessPieceMouseListener` mittels `addMouseListener` hinzufügen.
+
+Nun müssten Sie, wenn Sie das Programm starten und die Maus über eine Figur bewegen, eine entsprechende Hervorhebung sehen:
+
+![Schachbrett](images/chessgame_board3.png)
+
+Wenn Sie Lust haben, können Sie nun das Spiel erweitern, z.B.:
+
+* Weitere Figuren mit passender `canMoveTo()`-Logik hinzufügen
+* Einen `MouseListener` für Schachfelder hinzufügen, der die Figuren highlighted, die dort hinziehen können
+* Die `MouseListener` so erweitern, dass beim Anklicken ein Zug gemacht werden kann (z.B. Anklicken einer Figur gefolgt vom Anklicken eines Feldes)
+
+Ihrer Phantasie sind keine Grezen gesetzt!

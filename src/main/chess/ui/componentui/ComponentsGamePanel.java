@@ -12,7 +12,7 @@ public class ComponentsGamePanel extends GamePanel {
     public ComponentsGamePanel(int fieldSize) {
         super(fieldSize);
         setLayout(null);
-/*        ChessPieceMouseListener listener = new ChessPieceMouseListener(this);
+        ChessPieceMouseListener listener = new ChessPieceMouseListener(this);
         for(ChessPiece p : getBoard().getPieces()) { // TODO
             PieceLabel pieceLabel = new PieceLabel(p);
             pieceLabel.setBounds(p.getBoardX()*fieldSize, p.getBoardY()*fieldSize,
@@ -20,7 +20,7 @@ public class ComponentsGamePanel extends GamePanel {
             pieceLabel.addMouseListener(listener);
             labels.add(pieceLabel);
             add(pieceLabel);
-        }*/
+        }
         for(ChessField[] row : getBoard().getFields()) {
             for(ChessField f : row) {
                 PieceLabel l = new PieceLabel(f);
