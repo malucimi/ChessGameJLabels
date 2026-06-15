@@ -4,7 +4,7 @@
 
 Für die Bearbeitung werden Sie einige Java-Standard-Klassen verwenden, die in der Vorlesung nicht im Detail besprochen wurden. Verwenden Sie, um ein Gefühl für deren Einsatzmöglichkeiten zu bekommen, die [Java-Dokumentation](https://docs.oracle.com/en/java/javase/26/) und/oder Google. Niemand kennt alle Standard-Klassen aus dem Kopf - Wissen ist hier wirklich wissen wo was steht.
 
-Da es sich hier um eine recht komplexe Übungsaufgabe handelt, finden Sie - falls etwas nicht verständlich ist und Sie selber nachschauen wollen - im Branch `solutions` in diesem git-repository eine Beispiellösung für die vollständige Aufgabe.
+Da es sich hier um eine recht komplexe Übungsaufgabe handelt, finden Sie - falls etwas nicht verständlich ist und Sie selber nachschauen wollen - im Branch [Solutions](https://github.com/dabrowskiw/ChessGameJLabels/tree/solutions) in diesem git-repository eine Beispiellösung für die vollständige Aufgabe.
 
 # JLabel-basiertes UI
 
