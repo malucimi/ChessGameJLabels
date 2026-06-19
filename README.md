@@ -1,10 +1,8 @@
 # Hintergrund
 
-Über die nächsten 2 Aufgaben hinweg üben Sie das Erstellen von GUIs und einige Pattern der objektorientierten Softwareentwicklung. Dabei entwickeln Sie die Basis für ein Schachspiel. Die Aufgaben beinhalten nur die reine Basis - wenn Sie Spaß daran haben, können Sie aber diese Basis beliebig für Erweiterungen nutzen und sie sogar, je nach Umfang, zu einem Projekt für das Semester ausbauen.
+Über die nächsten 3 Aufgaben hinweg üben Sie das Erstellen von GUIs und einige Pattern der objektorientierten Softwareentwicklung. Dabei entwickeln Sie die Basis für ein Schachspiel. Die Aufgaben beinhalten nur die reine Basis - wenn Sie Spaß daran haben, können Sie aber diese Basis beliebig für Erweiterungen nutzen und sie sogar, je nach Umfang, zu einem Projekt für das Semester ausbauen.
 
 Für die Bearbeitung werden Sie einige Java-Standard-Klassen verwenden, die in der Vorlesung nicht im Detail besprochen wurden. Verwenden Sie, um ein Gefühl für deren Einsatzmöglichkeiten zu bekommen, die [Java-Dokumentation](https://docs.oracle.com/en/java/javase/26/) und/oder Google. Niemand kennt alle Standard-Klassen aus dem Kopf - Wissen ist hier wirklich wissen wo was steht.
-
-Da es sich hier um eine recht komplexe Übungsaufgabe handelt, finden Sie - falls etwas nicht verständlich ist und Sie selber nachschauen wollen - im Branch [Solutions](https://github.com/dabrowskiw/ChessGameJLabels/tree/solutions) in diesem git-repository eine Beispiellösung für die vollständige Aufgabe.
 
 # JLabel-basiertes UI
 
@@ -194,6 +192,21 @@ public class ChessGame extends JFrame {
 Sie sollten, wenn Sie dieses Programm starten, ein Fenster sehen, das in etwa so aussieht:
 
 ![Schachbrett](images/chessgame_board.png)
+
+### ChessPiece
+
+Um das Spiel um Figuren zu erweitern, benötigen Sie eine Klasse, die eine Figur beschreibt. Implementieren Sie dafür eine abstrakte Klasse `ChessPiece`, die von `ChessSprite` ableitet - sie stellt auch Dinge dar, die auf dem Spielbrett sein können, muss aber über etwas andere Funktionalität verfügen, als das `ChessField`:
+
+#### Attribute
+
+* `private Color color`: Die Farbe der Figur
+* `private ChessBoard board`: Das Schachbrett - das benötigen Sie nachher, um zu überprüfen, wo eine Figur hin ziehen darf
+
+#### Methoden
+
+* `public ChessPiece(ChessBoard board, String imagefile, String mouseOverImageFile, int x, int y, Color color)`: Constructor. Wie beim `ChessField` ruft er den `super`-Constructor mit den übergebenen Bildern auf, zusätzlich setzt er das `ChessBoard`.
+* `public Color getColor()`: Getter für `color`.
+* `public abstract boolean canMoveTo(int x, int y)`: Gibt `true` zurück, falls die Figur an die übergebene Position auf dem Schachbrett ziehen kann, sonst `false`. Die konkrete Logik hängt davon ab, um welche Figur es sich handelt, daher ist diese Methode abstrakt und wird von den konkreten Figur-Klassen überschrieben (wie z.B. `Pawn`, welche Sie als nächstes implementieren).
 
 ### Pawn
 
