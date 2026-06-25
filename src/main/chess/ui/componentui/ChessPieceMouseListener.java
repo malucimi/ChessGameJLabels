@@ -1,9 +1,6 @@
 package chess.ui.componentui;
 
-import chess.pieces.ChessBoard;
-import chess.pieces.ChessField;
 import chess.pieces.ChessPiece;
-import chess.pieces.ChessSprite;
 import chess.ui.GamePanel;
 
 import java.awt.*;
@@ -21,16 +18,17 @@ public class ChessPieceMouseListener implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         Component c = e.getComponent();
+
         if (c instanceof PieceLabel){
-            ChessSprite sprite = ((PieceLabel) c).getSprite();
-            if(sprite instanceof ChessPiece){
-                sprite.setHighlighted(true);
-                ChessBoard board = panel.getBoard();
-                ChessField[][] fields = board.getFields();
-                for (int y = 0; y < fields.length; y++){
-                    for (int x = 0; x < fields[y].length; x++){
-                        if(((ChessPiece)sprite).canMoveTo(x, y)){
-                            fields[y][x].setHighlighted(true);
+            PieceLabel pl = (PieceLabel)c;
+            if(pl.getSprite() instanceof ChessPiece){
+                ChessPiece cp = (ChessPiece)pl.getSprite();
+                cp.setHighlighted(true);
+
+                for (int y = 0; y < 8; y++){
+                    for (int x = 0; x < 8; x++){
+                        if(cp.canMoveTo(x, y)){
+                            panel.getBoard().highlight(x, y);
                         }
                     }
                 }
@@ -43,9 +41,10 @@ public class ChessPieceMouseListener implements MouseListener {
     public void mouseExited(MouseEvent e) {
         Component c = e.getComponent();
         if (c instanceof PieceLabel){
-            ChessSprite sprite = ((PieceLabel) c).getSprite();
-            if(sprite instanceof ChessPiece){
-                sprite.setHighlighted(false);
+            PieceLabel pl = (PieceLabel)c;
+            if(pl.getSprite() instanceof ChessPiece){
+                ChessPiece cp = (ChessPiece)pl.getSprite();
+                cp.setHighlighted(false);
                 panel.getBoard().unhighlightAll();
             }
         }

@@ -15,6 +15,7 @@ public class ComponentsGamePanel extends GamePanel {
 
     public ComponentsGamePanel(int fieldSize){
         super(fieldSize);
+
         setLayout(null);
         List<ChessPiece> pieces = getBoard().getPieces();
         ChessField[][] fields = getBoard().getFields();
@@ -22,7 +23,7 @@ public class ComponentsGamePanel extends GamePanel {
 
         for(ChessPiece piece : pieces){
             PieceLabel label = new PieceLabel(piece);
-            label.setBounds(piece.getBoardX()*60, piece.getBoardY()*60, 60, 60);
+            label.setBounds(piece.getBoardX()*fieldSize, piece.getBoardY()*fieldSize, fieldSize, fieldSize);
             label.addMouseListener(new ChessPieceMouseListener(this));
             add(label);
             labels.add(label);
@@ -31,7 +32,7 @@ public class ComponentsGamePanel extends GamePanel {
         for(int y= 0; y < fields.length; y++){
             for(int x = 0; x < fields[y].length; x++){
                 PieceLabel label = new PieceLabel(fields[y][x]);
-                label.setBounds(x*60, y*60, 60, 60);
+                label.setBounds(x*fieldSize, y*fieldSize, fieldSize, fieldSize);
                 add(label);
                 labels.add(label);
             }

@@ -5,15 +5,16 @@ import java.util.List;
 
 public class ChessBoard {
     //Felder
-    private ChessField[][] fields;
+    private ChessField[][] fields = new ChessField[8][8];;
     //Schachfiguren
-    private List<ChessPiece> pieces;
+    private List<ChessPiece> pieces = new ArrayList<ChessPiece>();
 
     public ChessBoard() {
-        pieces = new ArrayList<ChessPiece>();
-        fields = new ChessField[8][8];
+        setupBoard();
+    }
 
-        //Zeile ist y-Wert, Spalte ist x-Wert
+    private void setupBoard() {
+        //Zeile in fields ist y-Wert des Feldes, Spalte ist x-Wert
         for (int y = 0; y < 8; y++) {
             if (y % 2 == 0) {
                 for (int x = 0; x < 8; x++) {
@@ -34,14 +35,7 @@ public class ChessBoard {
                 }
             }
         }
-        setupBoard();
-    }
-
-    public ChessField[][] getFields() {
-        return fields;
-    }
-
-    private void setupBoard() {
+        //Startaufstellung der Bauern
         for (int x=0; x<8; x++){
             pieces.add(new Pawn(this, x,1, ChessSprite.Color.BLACK));
             pieces.add(new Pawn(this, x,6, ChessSprite.Color.WHITE));
@@ -53,11 +47,15 @@ public class ChessBoard {
     }
 
     public void unhighlightAll() {
-        for (int y = 0; y < fields.length; y++) {
-            for (int x = 0; x < fields[y].length; x++) {
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
                 fields[y][x].setHighlighted(false);
             }
         }
+    }
+
+    public ChessField[][] getFields() {
+        return fields;
     }
 
     public List<ChessPiece> getPieces(){
