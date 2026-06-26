@@ -1,9 +1,7 @@
 package chess.ui.componentui;
 
-import chess.pieces.ChessBoard;
 import chess.pieces.ChessField;
 import chess.pieces.ChessPiece;
-import chess.pieces.ChessSprite;
 import chess.ui.GamePanel;
 
 import javax.swing.*;
@@ -29,8 +27,8 @@ public class ComponentsGamePanel extends GamePanel {
             labels.add(label);
         }
 
-        for(int y= 0; y < fields.length; y++){
-            for(int x = 0; x < fields[y].length; x++){
+        for(int y= 0; y < 8; y++){
+            for(int x = 0; x < 8; x++){
                 PieceLabel label = new PieceLabel(fields[y][x]);
                 label.setBounds(x*fieldSize, y*fieldSize, fieldSize, fieldSize);
                 add(label);

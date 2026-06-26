@@ -1,6 +1,5 @@
 package chess.pieces;
 
-import javax.swing.*;
 
 public class Pawn extends ChessPiece {
 
@@ -12,29 +11,28 @@ public class Pawn extends ChessPiece {
 
     @Override
     public boolean canMoveTo(int x, int y) {
-        //super-Konstruktor gibt x und y an ChessSprite, daher können sie über die ChessSprite-Getter ausgelesen werden
         int currentX = getBoardX();
         int currentY = getBoardY();
 
         if (getColor() == Color.WHITE) {
-            int diff = currentY-y;
+            int schritte = currentY-y;
             if (x == currentX) {
-                if(currentY == 6 && (diff == 1 || diff == 2)) {
+                if(currentY == 6 && (schritte == 1 || schritte == 2)) {
                     return true;
                 }
-                if(currentY != 6 && diff == 1){
+                if(currentY != 6 && schritte == 1){
                     return true;
                 }
             }
         }
 
         else {
-            int diff = y - currentY;
+            int schritte = y - currentY;
             if (x == currentX) {
-                if(currentY == 1 && (diff == 1 || diff == 2)) {
+                if(currentY == 1 && (schritte == 1 || schritte == 2)) {
                     return true;
                 }
-                if(currentY != 1 && diff == 1){
+                if(currentY != 1 && schritte == 1){
                     return true;
                 }
             }

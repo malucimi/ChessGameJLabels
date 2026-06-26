@@ -32,9 +32,9 @@ public class ChessPieceMouseListener implements MouseListener {
                         }
                     }
                 }
+                panel.updateGUI();
             }
         }
-        panel.updateGUI();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class ChessPieceMouseListener implements MouseListener {
                 cp.setHighlighted(false);
                 panel.getBoard().unhighlightAll();
             }
+            panel.updateGUI();
         }
-        panel.updateGUI();
     }
 
     @Override

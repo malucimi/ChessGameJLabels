@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChessBoard {
-    //Felder
-    private ChessField[][] fields = new ChessField[8][8];;
-    //Schachfiguren
+    //alle Schachfelder
+    private ChessField[][] fields = new ChessField[8][8];
+    //alle Schachfiguren
     private List<ChessPiece> pieces = new ArrayList<ChessPiece>();
 
     public ChessBoard() {
@@ -19,13 +19,13 @@ public class ChessBoard {
             if (y % 2 == 0) {
                 for (int x = 0; x < 8; x++) {
                     if (x % 2 == 0) {
-
                         fields[y][x] = new ChessField(x, y, ChessSprite.Color.BLACK);
                     } else {
                         fields[y][x] = new ChessField(x, y, ChessSprite.Color.WHITE);
                     }
                 }
-            } else {
+            }
+            else {
                 for (int x = 0; x < 8; x++) {
                     if (x % 2 == 0) {
                         fields[y][x] = new ChessField(x, y, ChessSprite.Color.WHITE);
