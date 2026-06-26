@@ -21,6 +21,7 @@ public class ComponentsGamePanel extends GamePanel {
 
         for(ChessPiece piece : pieces){
             PieceLabel label = new PieceLabel(piece);
+            label.updateIcon();
             label.setBounds(piece.getBoardX()*fieldSize, piece.getBoardY()*fieldSize, fieldSize, fieldSize);
             label.addMouseListener(new ChessPieceMouseListener(this));
             add(label);
@@ -30,6 +31,7 @@ public class ComponentsGamePanel extends GamePanel {
         for(int y= 0; y < 8; y++){
             for(int x = 0; x < 8; x++){
                 PieceLabel label = new PieceLabel(fields[y][x]);
+                label.updateIcon();
                 label.setBounds(x*fieldSize, y*fieldSize, fieldSize, fieldSize);
                 add(label);
                 labels.add(label);
